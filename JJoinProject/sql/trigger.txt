@@ -1,0 +1,11 @@
+CREATE OR REPLACE TRIGGER update_task_retry_trigger
+AFTER INSERT OR UPDATE ON feedback
+FOR EACH ROW
+BEGIN
+    IF :NEW.advice_score = -1 THEN
+        UPDATE task
+        SET retry = 1
+        WHERE task_id = :NEW.task_task_id;
+    END IF;
+END;
+/
